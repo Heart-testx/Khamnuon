@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คำนวณรายได้ - บัญชีผี</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Mali:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #1a1a1a;
+      --text-color: #b3b3b3;
+      --accent-color: #ff3333;
+      --input-bg: #2b2b2b;
+      --button-bg: #440000;
+      --button-hover-bg: #660000;
+      --error-color: #ff0000;
+      --success-color: #33ff33;
+    }
+
+    body {
+      font-family: 'Mali', cursive;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      box-sizing: border-box;
+      /* เอฟเฟกต์เสียงกระซิบเบาๆ */
+      animation: whisper 15s infinite ease-in-out;
+    }
+
+    @keyframes whisper {
+      0%, 100% { filter: contrast(1); }
+      50% { filter: contrast(1.1); }
+    }
+
+    h1 {
+      font-family: 'Chakra Petch', sans-serif;
+      text-align: center;
+      color: var(--accent-color);
+      text-shadow: 0 0 10px rgba(255, 51, 51, 0.7);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      animation: pulse-ghost 2s infinite alternate;
+    }
+
+    @keyframes pulse-ghost {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--accent-color);
+      background: var(--input-bg);
+      color: var(--text-color);
+      font-size: 1em;
+      box-sizing: border-box;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: var(--button-bg);
+      color: var(--text-color);
+      border: 2px solid var(--accent-color);
+      border-radius: 6px;
+      font-size: 1.1em;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: var(--button-hover-bg);
+      border-color: var(--accent-color);
+      box-shadow: 0 0 20px var(--accent-color);
+      transform: scale(1.02);
+    }
+
+    button:disabled {
+      background: #333;
+      border-color: #555;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .result {
+      margin-top: 25px;
+      text-align: center;
+      font-size: 1.4em;
+      font-weight: bold;
+      color: var(--success-color);
+      padding: 15px;
+      border: 2px dashed var(--success-color);
+      border-radius: 8px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      animation: fade-in 2s forwards;
+    }
+
+    .result.error {
+      color: var(--error-color);
+      border-color: var(--error-color);
+      animation: shake 0.5s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>คำนวณค่าจ้าง | บัญชีผี 👻</h1>
+
+  <label>เดือนนี้มีกี่วัน</label>
+  <input type="number" id="daysInMonth" value="30" min="1" max="31">
+
+  <label>รายได้ต่อวัน (บาท)</label>
+  <input type="number" id="dailyIncome" value="300" min="0">
+
+  <label>จำนวนวันที่ทำงานครึ่งวัน</label>
+  <input type="number" id="halfDays" value="5" min="0">
+
+  <label>จำนวนวันที่หยุด</label>
+  <input type="number" id="offDays" value="5" min="0">
+
+  <label>จำนวนวันที่มีวิ่งงาน (+100)</label>
+  <input type="number" id="extraDays" value="10" min="0">
+
+  <button id="calcButton" onclick="calculate()">เรียกวิญญาณคำนวณ</button>
+
+  <div class="result" id="result"></div>
+
+  <audio id="whisperSound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+  <audio id="screamSound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+  
+  <script>
+    const calcButton = document.getElementById("calcButton");
+    const resultDiv = document.getElementById("result");
+    const whisperSound = document.getElementById("whisperSound");
+    const screamSound = document.getElementById("screamSound");
+
+    function calculate() {
+      // Play a soft whisper sound
+      whisperSound.play();
+
+      calcButton.disabled = true;
+      resultDiv.innerHTML = "วิญญาณกำลังนับ...<br>กำลังประมวลผลคำสาป...";
+      resultDiv.classList.add("loading-pulse");
+      resultDiv.classList.remove("error");
+
+      setTimeout(() => {
+        const daysInMonth = parseInt(document.getElementById("daysInMonth").value);
+        const dailyIncome = parseFloat(document.getElementById("dailyIncome").value);
+        const halfDays = parseInt(document.getElementById("halfDays").value);
+        const offDays = parseInt(document.getElementById("offDays").value);
+        const extraDays = parseInt(document.getElementById("extraDays").value);
+
+        const fullDays = daysInMonth - (halfDays + offDays);
+
+        if (fullDays < 0) {
+          resultDiv.textContent = "👻 ERROR: วันที่ทำงานเกินกว่าเดือนนี้!";
+          resultDiv.classList.add("error");
+          screamSound.play();
+        } else {
+          let income = (fullDays * dailyIncome) + (halfDays * (dailyIncome / 2));
+          income += extraDays * 100;
+
+          resultDiv.textContent = 
+            `สถานะ: คำสาปสำเร็จ!\n\n${fullDays} วันทำงานเต็มที่\n${halfDays} วันทำงานครึ่งๆ กลางๆ\n${offDays} วันแห่งความว่างเปล่า\n\n💀 รวมเงินที่ถูกคำสาป: ${income.toLocaleString()} บาท`;
+          resultDiv.classList.remove("error");
+          resultDiv.style.borderColor = "var(--success-color)";
+          whisperSound.pause();
+          whisperSound.currentTime = 0;
+        }
+        
+        calcButton.disabled = false;
+        resultDiv.classList.remove("loading-pulse");
+      }, 2500); // Increased delay to 2.5 seconds for more suspense
+    }
+  </script>
+</body>
+</html>
