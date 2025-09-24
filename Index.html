@@ -3,177 +3,228 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>คำนวณรายได้ - บัญชีผี</title>
+  <title>คำนวณรายได้ - หน่วยพิฆาตอสูร</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Mali:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #1a1a1a;
-      --text-color: #b3b3b3;
-      --accent-color: #ff3333;
-      --input-bg: #2b2b2b;
-      --button-bg: #440000;
-      --button-hover-bg: #660000;
-      --error-color: #ff0000;
-      --success-color: #33ff33;
+      /* Tanjiro's colors */
+      --tanjiro-green: #4CAF50;
+      --tanjiro-black: #263238;
+      --tanjiro-red: #D32F2F;
+      --tanjiro-orange: #FFAB40;
+      
+      /* Zenitsu's colors */
+      --zenitsu-yellow: #FFEA00;
+      --zenitsu-orange-dark: #FF6F00;
+
+      /* Inosuke's colors */
+      --inosuke-blue: #00BCD4;
+
+      /* General Demon Slayer feel */
+      --bg-gradient-start: #1a1a1a;
+      --bg-gradient-end: #37474F;
+      --text-main: #ECEFF1;
+      --text-highlight: #FFEB3B;
+      --border-color: #616161;
+      --input-bg: #303030;
+      --button-bg: #D32F2F;
+      --button-hover-bg: #FF3D00;
+      --error-color: #FF1744;
+      --success-color: #69F0AE;
     }
 
     body {
-      font-family: 'Mali', cursive;
-      background-color: var(--bg-color);
-      color: var(--text-color);
+      font-family: 'Sarabun', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-main);
       max-width: 500px;
       margin: auto;
-      padding: 20px;
+      padding: 1.5rem; /* Increased padding for better mobile feel */
       box-sizing: border-box;
-      /* เอฟเฟกต์เสียงกระซิบเบาๆ */
-      animation: whisper 15s infinite ease-in-out;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.5);
+      border-radius: 0.75rem;
+      position: relative;
+      overflow: hidden;
     }
 
-    @keyframes whisper {
-      0%, 100% { filter: contrast(1); }
-      50% { filter: contrast(1.1); }
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            repeating-linear-gradient(45deg, rgba(var(--tanjiro-green), 0.1) 0, rgba(var(--tanjiro-green), 0.1) 1px, transparent 0, transparent 50%),
+            repeating-linear-gradient(-45deg, rgba(var(--tanjiro-black), 0.1) 0, rgba(var(--tanjiro-black), 0.1) 1px, transparent 0, transparent 50%);
+        background-size: 20px 20px;
+        opacity: 0.3;
+        z-index: -1;
     }
 
     h1 {
-      font-family: 'Chakra Petch', sans-serif;
+      font-family: 'Noto Serif JP', serif;
       text-align: center;
-      color: var(--accent-color);
-      text-shadow: 0 0 10px rgba(255, 51, 51, 0.7);
-      margin-bottom: 20px;
+      color: var(--tanjiro-orange);
+      text-shadow: 0 0 0.5rem rgba(255, 171, 64, 0.8), 0 0 1rem rgba(255, 171, 64, 0.4);
+      margin-bottom: 2rem;
+      letter-spacing: 2px;
+      font-size: 1.8rem; /* Adjusted for mobile readability */
     }
 
     label {
       display: block;
-      margin: 10px 0 5px;
+      margin: 1rem 0 0.5rem;
       font-weight: bold;
-      animation: pulse-ghost 2s infinite alternate;
+      color: var(--text-highlight);
+      border-left: 0.2rem solid var(--tanjiro-red);
+      padding-left: 0.75rem;
+      font-size: 1rem; /* Base font size */
+      animation: breath-pulse 3s infinite ease-in-out;
     }
 
-    @keyframes pulse-ghost {
-      from { opacity: 0.8; }
-      to { opacity: 1; }
+    @keyframes breath-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.01); opacity: 0.95; }
     }
 
     input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      border: 1px solid var(--accent-color);
+      padding: 0.75rem 1rem; /* Increased padding */
+      margin-bottom: 1.25rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-color);
       background: var(--input-bg);
-      color: var(--text-color);
-      font-size: 1em;
+      color: var(--text-main);
+      font-size: 1.1rem;
       box-sizing: border-box;
       outline: none;
       transition: all 0.3s ease;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
     }
 
     input:focus {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+      border-color: var(--tanjiro-red);
+      box-shadow: 0 0 0.5rem rgba(211, 47, 47, 0.7);
     }
 
     button {
       width: 100%;
-      padding: 15px;
+      padding: 1rem 1.5rem; /* Larger button for easier tapping */
       background: var(--button-bg);
-      color: var(--text-color);
-      border: 2px solid var(--accent-color);
-      border-radius: 6px;
-      font-size: 1.1em;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1.2rem;
       cursor: pointer;
       font-weight: bold;
       letter-spacing: 1px;
       transition: all 0.3s ease;
+      box-shadow: 0 0.3rem 1rem rgba(211, 47, 47, 0.4);
+      background-image: linear-gradient(to right, var(--tanjiro-red) 0%, var(--tanjiro-orange) 100%);
     }
 
     button:hover {
-      background: var(--button-hover-bg);
-      border-color: var(--accent-color);
-      box-shadow: 0 0 20px var(--accent-color);
-      transform: scale(1.02);
+      background-position: right center;
+      box-shadow: 0 0.5rem 1.5rem rgba(255, 61, 0, 0.6);
+      transform: translateY(-2px);
     }
 
     button:disabled {
-      background: #333;
-      border-color: #555;
-      cursor: not-allowed;
+      background: #555;
       box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+      background-image: none;
     }
 
     .result {
-      margin-top: 25px;
+      margin-top: 2rem;
       text-align: center;
-      font-size: 1.4em;
+      font-size: 1.2rem; /* Adjusted for better fit on mobile */
       font-weight: bold;
       color: var(--success-color);
-      padding: 15px;
-      border: 2px dashed var(--success-color);
-      border-radius: 8px;
+      padding: 1.25rem;
+      border: 2px solid var(--success-color);
+      border-radius: 0.625rem;
       white-space: pre-wrap;
       word-wrap: break-word;
-      animation: fade-in 2s forwards;
+      animation: result-appear 1s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 1.25rem rgba(105, 240, 174, 0.5);
     }
 
     .result.error {
       color: var(--error-color);
       border-color: var(--error-color);
-      animation: shake 0.5s infinite;
+      animation: result-error 0.8s infinite alternate;
+      box-shadow: 0 0 1.25rem rgba(255, 23, 68, 0.6);
     }
 
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
+    @keyframes result-appear {
+        from { opacity: 0; transform: scale(0.8) translateY(1.25rem); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    @keyframes fade-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes result-error {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.02); opacity: 0.8; }
+    }
+
+    .loading-text {
+        font-family: 'Noto Serif JP', serif;
+        color: var(--text-highlight);
+        font-size: 1.2rem;
+        animation: loading-dots 1s infinite steps(3, end);
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: bottom;
+        width: 100%;
+    }
+
+    @keyframes loading-dots {
+      0% { content: 'กำลังคำนวณ...'; }
+      33% { content: 'กำลังคำนวณ..'; }
+      66% { content: 'กำลังคำนวณ.'; }
+      100% { content: 'กำลังคำนวณ...'; }
+    }
+
+    .loading-pulse {
+        border-color: var(--text-highlight) !important;
+        box-shadow: 0 0 1rem var(--text-highlight) !important;
     }
   </style>
 </head>
 <body>
-  <h1>คำนวณค่าจ้าง | บัญชีผี 👻</h1>
+  <h1>ปราณรายได้ | หน่วยพิฆาตอสูร ⚔️</h1>
 
-  <label>เดือนนี้มีกี่วัน</label>
+  <label>จำนวนวันในเดือนนี้ (วัน)</label>
   <input type="number" id="daysInMonth" value="30" min="1" max="31">
 
-  <label>รายได้ต่อวัน (บาท)</label>
+  <label>ค่าตอบแทนต่อวัน (เยน)</label>
   <input type="number" id="dailyIncome" value="300" min="0">
 
-  <label>จำนวนวันที่ทำงานครึ่งวัน</label>
+  <label>จำนวนวันที่ปฏิบัติภารกิจครึ่งวัน</label>
   <input type="number" id="halfDays" value="5" min="0">
 
-  <label>จำนวนวันที่หยุด</label>
+  <label>จำนวนวันที่พักฟื้น (หยุด)</label>
   <input type="number" id="offDays" value="5" min="0">
 
-  <label>จำนวนวันที่มีวิ่งงาน (+100)</label>
+  <label>จำนวนวันที่มีภารกิจพิเศษ (+100 เยน)</label>
   <input type="number" id="extraDays" value="10" min="0">
 
-  <button id="calcButton" onclick="calculate()">เรียกวิญญาณคำนวณ</button>
+  <button id="calcButton" onclick="calculate()">เปิดใช้ปราณคำนวณ</button>
 
   <div class="result" id="result"></div>
 
-  <audio id="whisperSound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-  <audio id="screamSound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-  
   <script>
     const calcButton = document.getElementById("calcButton");
     const resultDiv = document.getElementById("result");
-    const whisperSound = document.getElementById("whisperSound");
-    const screamSound = document.getElementById("screamSound");
 
     function calculate() {
-      // Play a soft whisper sound
-      whisperSound.play();
-
       calcButton.disabled = true;
-      resultDiv.innerHTML = "วิญญาณกำลังนับ...<br>กำลังประมวลผลคำสาป...";
+      resultDiv.innerHTML = '<span class="loading-text">กำลังคำนวณ...</span>';
       resultDiv.classList.add("loading-pulse");
       resultDiv.classList.remove("error");
 
@@ -186,25 +237,22 @@
 
         const fullDays = daysInMonth - (halfDays + offDays);
 
-        if (fullDays < 0) {
-          resultDiv.textContent = "👻 ERROR: วันที่ทำงานเกินกว่าเดือนนี้!";
+        if (fullDays < 0 || isNaN(daysInMonth) || isNaN(dailyIncome) || isNaN(halfDays) || isNaN(offDays) || isNaN(extraDays)) {
+          resultDiv.textContent = "⚔️ พลังปราณไม่เสถียร: ข้อมูลการคำนวณไม่ถูกต้อง!";
           resultDiv.classList.add("error");
-          screamSound.play();
         } else {
           let income = (fullDays * dailyIncome) + (halfDays * (dailyIncome / 2));
           income += extraDays * 100;
 
           resultDiv.textContent = 
-            `สถานะ: คำสาปสำเร็จ!\n\n${fullDays} วันทำงานเต็มที่\n${halfDays} วันทำงานครึ่งๆ กลางๆ\n${offDays} วันแห่งความว่างเปล่า\n\n💀 รวมเงินที่ถูกคำสาป: ${income.toLocaleString()} บาท`;
+            `รูปแบบปราณ: สำเร็จ!\n\nปฏิบัติภารกิจเต็มวัน: ${fullDays} วัน\nปฏิบัติภารกิจครึ่งวัน: ${halfDays} วัน\nวันที่พักฟื้น: ${offDays} วัน\n\n🎉 รวมค่าตอบแทนเดือนนี้: ${income.toLocaleString()} เยน`;
           resultDiv.classList.remove("error");
           resultDiv.style.borderColor = "var(--success-color)";
-          whisperSound.pause();
-          whisperSound.currentTime = 0;
         }
         
         calcButton.disabled = false;
         resultDiv.classList.remove("loading-pulse");
-      }, 2500); // Increased delay to 2.5 seconds for more suspense
+      }, 2000);
     }
   </script>
 </body>
