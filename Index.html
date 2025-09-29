@@ -2,381 +2,309 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <title>คำนวณรายได้ - สมาคมไสยเวท</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เครื่องมือคำนวณ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=Mali:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    /* Day Mode Colors */
     :root {
-      /* Jujutsu Kaisen Colors */
-      --jujutsu-black: #1E1E1E;
-      --jujutsu-darkblue: #2C3E50;
-      --jujutsu-red: #E74C3C;
-      --jujutsu-blue: #3498DB;
-      --jujutsu-white: #ECF0F1;
-      --jujutsu-purple: #9B59B6;
-      --jujutsu-gojo-blue: #3498DB;
-      --jujutsu-yuji-red: #C0392B;
-      --jujutsu-megumi-dark: #2C3E50;
-      --jujutsu-nobara-orange: #E67E22;
-
-      /* General Styling */
-      --bg-gradient-start: #1E1E1E;
-      --bg-gradient-end: #34495E;
-      --text-main: #ECF0F1;
-      --text-highlight: #FFD700;
-      --border-color: #34495E;
-      --input-bg: #2C3E50;
-      --button-bg: #E74C3C;
-      --button-hover-bg: #C0392B;
-      --error-color: #FF1744;
-      --success-color: #2ECC71;
+      --bg-color: #f4f7f9;
+      --card-bg: #ffffff;
+      --text-main: #333333;
+      --text-label: #555555;
+      --input-border: #dddddd;
+      --focus-color: #3498db;
+      --button-bg: #3498db;
+      --button-hover: #2980b9;
+      --success-color: #2ecc71;
+      --error-color: #e74c4c;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --card-glow: rgba(52, 152, 219, 0.2);
+    }
+    
+    /* Dark Mode Colors */
+    body.dark-mode {
+      --bg-color: #1a1a1a;
+      --card-bg: #2d2d2d;
+      --text-main: #f4f7f9;
+      --text-label: #bbbbbb;
+      --input-border: #444444;
+      --focus-color: #8e44ad;
+      --button-bg: #8e44ad;
+      --button-hover: #9b59b6;
+      --success-color: #27ae60;
+      --error-color: #c0392b;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --card-glow: rgba(142, 68, 173, 0.2);
     }
 
+    /* General and Mobile-first Styling */
     html, body {
-        height: auto;
-        overflow-y: scroll;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.5s ease, color 0.5s ease;
     }
 
     body {
       font-family: 'Sarabun', sans-serif;
-      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      background-color: var(--bg-color);
       color: var(--text-main);
-      max-width: 500px;
-      margin: auto;
-      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1rem;
+      min-height: 100vh;
       box-sizing: border-box;
-      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.5);
-      border-radius: 0.75rem;
-      position: relative;
-      overflow: hidden;
     }
 
-    body::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image:
-            repeating-radial-gradient(circle at 50% 50%, var(--jujutsu-blue) 0, var(--jujutsu-blue) 1px, transparent 1px, transparent 20px),
-            repeating-radial-gradient(circle at 100% 100%, var(--jujutsu-red) 0, var(--jujutsu-red) 1px, transparent 1px, transparent 20px);
-        background-size: 20px 20px;
-        opacity: 0.15;
-        z-index: -1;
-        animation: cursed-energy-flow 15s linear infinite;
+    .container {
+      width: 100%;
+      max-width: 450px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px var(--shadow-color);
+      padding: 2rem;
+      box-sizing: border-box;
+      margin-top: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
-    @keyframes cursed-energy-flow {
-        0% { background-position: 0 0; }
-        100% { background-position: 100% 100%; }
+    
+    .container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px var(--card-glow);
     }
 
     h1 {
-      font-family: 'Noto Serif JP', serif;
       text-align: center;
-      color: var(--jujutsu-blue);
-      text-shadow: 0 0 0.5rem var(--jujutsu-blue), 0 0 1rem rgba(52, 152, 219, 0.4);
-      margin-bottom: 2rem;
-      letter-spacing: 2px;
       font-size: 1.8rem;
+      color: var(--text-main);
+      margin-bottom: 2rem;
     }
 
-    .quote {
-      font-family: 'Mali', cursive;
-      text-align: center;
-      margin-top: -1rem;
-      margin-bottom: 2rem;
-      color: var(--jujutsu-purple);
-      font-style: italic;
-      border-bottom: 1px dashed var(--jujutsu-purple);
-      padding-bottom: 1rem;
+    .form-group {
+      margin-bottom: 1.5rem;
     }
 
     label {
       display: block;
-      margin: 1rem 0 0.5rem;
       font-weight: bold;
-      color: var(--jujutsu-white);
-      border-left: 0.2rem solid var(--jujutsu-red);
-      padding-left: 0.75rem;
-      font-size: 1rem;
+      color: var(--text-label);
+      margin-bottom: 0.5rem;
     }
 
-    input {
+    input[type="number"] {
       width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1.25rem;
-      border-radius: 0.5rem;
-      border: 1px solid var(--border-color);
-      background: var(--input-bg);
+      padding: 12px;
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      font-size: 1rem;
       color: var(--text-main);
-      font-size: 1.1rem;
       box-sizing: border-box;
-      outline: none;
-      transition: all 0.3s ease;
-      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+      background-color: var(--card-bg);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, color 0.5s ease;
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+    }
+    
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
 
-    input:focus {
-      border-color: var(--jujutsu-red);
-      box-shadow: 0 0 0.5rem rgba(231, 76, 60, 0.7);
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--focus-color);
+      box-shadow: 0 0 0 3px var(--card-glow);
     }
 
     button {
       width: 100%;
-      padding: 1rem 1.5rem;
-      background: var(--button-bg);
-      color: white;
+      padding: 15px;
       border: none;
-      border-radius: 0.5rem;
-      font-size: 1.2rem;
-      cursor: pointer;
+      border-radius: 8px;
+      background-color: var(--button-bg);
+      color: white;
+      font-size: 1.1rem;
       font-weight: bold;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
-      box-shadow: 0 0.3rem 1rem rgba(231, 76, 60, 0.4);
-      animation: button-glow 1.5s infinite alternate;
-    }
-
-    @keyframes button-glow {
-        from { box-shadow: 0 0 1rem var(--jujutsu-red), 0 0 2rem var(--jujutsu-yuji-red); }
-        to { box-shadow: 0 0 0.5rem var(--jujutsu-red), 0 0 1.5rem var(--jujutsu-yuji-red); }
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-sizing: border-box;
+      margin-top: 1rem;
     }
 
     button:hover {
-      background: var(--button-hover-bg);
-      box-shadow: 0 0.5rem 1.5rem rgba(192, 57, 43, 0.6);
+      background-color: var(--button-hover);
       transform: translateY(-2px);
-      animation: none;
     }
 
     button:disabled {
-      background: #555;
-      box-shadow: none;
+      background-color: #cccccc;
       cursor: not-allowed;
       transform: none;
-      animation: none;
     }
 
     .result {
       margin-top: 2rem;
+      padding: 1.5rem;
+      border-radius: 12px;
       text-align: center;
-      font-size: 1.2rem;
-      font-weight: bold;
-      padding: 1.25rem;
-      border-radius: 0.625rem;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      animation: result-appear 1s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
+      transition: all 0.5s ease;
     }
 
-    .result-success {
+    .result.success {
+      background-color: #e8f5e9;
       color: var(--success-color);
       border: 2px solid var(--success-color);
-      box-shadow: 0 0 1.25rem rgba(46, 204, 113, 0.5);
-      animation: result-glow-success 1.5s infinite alternate;
     }
 
-    .result-error {
+    .result.error {
+      background-color: #fbe9e7;
       color: var(--error-color);
       border: 2px solid var(--error-color);
-      box-shadow: 0 0 1.25rem rgba(255, 23, 68, 0.6);
-      animation: result-glow-error 0.8s infinite alternate;
     }
-
-    @keyframes result-glow-success {
-        0%, 100% { box-shadow: 0 0 0.5rem var(--success-color), 0 0 1rem rgba(46, 204, 113, 0.5); }
-        50% { box-shadow: 0 0 1rem var(--success-color), 0 0 2rem rgba(46, 204, 113, 0.8); }
+    
+    body.dark-mode .result.success {
+        background-color: #1f302b;
     }
-
-    @keyframes result-glow-error {
-        0%, 100% { box-shadow: 0 0 0.5rem var(--error-color), 0 0 1rem rgba(255, 23, 68, 0.6); }
-        50% { box-shadow: 0 0 1rem var(--error-color), 0 0 2rem rgba(255, 23, 68, 0.9); }
+    
+    body.dark-mode .result.error {
+        background-color: #3b1e1e;
     }
 
     .result-title {
-        font-size: 1.5rem;
-        color: var(--text-highlight);
-        margin-bottom: 1rem;
-        border-bottom: 2px dashed var(--text-highlight);
-        padding-bottom: 0.5rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
     }
 
     .result-summary {
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--success-color);
-        margin: 1rem 0;
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-top: 1rem;
     }
 
     .result-detail {
-        text-align: left;
-        font-size: 1.1rem;
-        font-weight: normal;
-        line-height: 1.5; /* ลดความห่างระหว่างบรรทัด */
-    }
-
-    .result-detail span {
-        display: block;
-        padding: 0.1rem 0; /* ลดระยะห่าง */
-    }
-
-    .quote-final {
-      font-family: 'Mali', cursive;
-      text-align: center;
+      font-size: 1rem;
+      text-align: left;
       margin-top: 1rem;
-      font-style: italic;
-      color: var(--jujutsu-nobara-orange);
-      text-shadow: 0 0 5px var(--jujutsu-nobara-orange);
-      font-size: 0.9rem;
+      line-height: 1.6;
     }
 
-    .loading-text {
-        font-family: 'Noto Serif JP', serif;
-        color: var(--text-highlight);
-        font-size: 1.2rem;
-        animation: loading-dots 1s infinite steps(3, end);
-        display: inline-block;
-        overflow: hidden;
-        vertical-align: bottom;
-        width: 100%;
-    }
-
-    @keyframes loading-dots {
-      0% { content: 'กำลังคำนวณ...'; }
-      33% { content: 'กำลังคำนวณ..'; }
-      66% { content: 'กำลังคำนวณ.'; }
-      100% { content: 'กำลังคำนวณ...'; }
-    }
-
-    @keyframes result-appear {
-        from { opacity: 0; transform: scale(0.8) translateY(1.25rem); }
-        to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    .loading-pulse {
-        border-color: var(--jujutsu-nobara-orange) !important;
-        box-shadow: 0 0 1rem var(--jujutsu-nobara-orange) !important;
-    }
-
-    .void-effect {
+    .mode-toggle {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        animation: void-expand 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        z-index: 10;
-        border-radius: 0.75rem;
-    }
-
-    @keyframes void-expand {
-        0% { transform: scale(0); opacity: 0; }
-        50% { transform: scale(1.1); opacity: 1; }
-        100% { transform: scale(1); opacity: 0; }
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+        font-size: 2rem;
+        user-select: none;
     }
   </style>
 </head>
 <body>
-  <h1>คำนวณรายได้ | มหาเวทผนึกมาร</h1>
-  <p class="quote"><br></p>
+  <div class="mode-toggle" id="modeToggle">☀️</div>
 
-  <label>จำนวนวันในการออกภารกิจ (วัน)</label>
-  <input type="number" id="daysInMonth" value="30" min="1" max="31">
+  <div class="container">
+    <h1>เครื่องมือคำนวณ</h1>
 
-  <label>ค่าภารกิจต่อวัน (เยน)</label>
-  <input type="number" id="dailyIncome" value="300" min="0">
+    <div class="form-group">
+      <label for="daysInMonth">จำนวนวันในเดือนนี้</label>
+      <input type="number" id="daysInMonth" value="30" min="1" max="31">
+    </div>
 
-  <label>จำนวนวันที่ปฏิบัติภารกิจครึ่งวัน</label>
-  <input type="number" id="halfDays" value="5" min="0">
+    <div class="form-group">
+      <label for="dailyIncome">รายได้ต่อวัน (บาท)</label>
+      <input type="number" id="dailyIncome" value="300" min="0">
+    </div>
 
-  <label>จำนวนวันที่ได้รับบาดเจ็บ (หยุด)</label>
-  <input type="number" id="offDays" value="5" min="0">
+    <div class="form-group">
+      <label for="halfDays">จำนวนวันที่ทำงานครึ่งวัน</label>
+      <input type="number" id="halfDays" value="5" min="0">
+    </div>
 
-  <label>จำนวนวันที่มีคุณไสยพิเศษ (+100 เยน)</label>
-  <input type="number" id="extraDays" value="10" min="0">
+    <div class="form-group">
+      <label for="offDays">จำนวนวันที่พัก (หยุด)</label>
+      <input type="number" id="offDays" value="5" min="0">
+    </div>
 
-  <button id="calcButton" onclick="calculate()">กางอาณาเขตคำนวณ</button>
+    <div class="form-group">
+      <label for="extraDays">จำนวนวันที่มีโบนัส (+100 บาท)</label>
+      <input type="number" id="extraDays" value="10" min="0">
+    </div>
 
-  <div class="result" id="result"></div>
+    <button id="calcButton">คำนวณ</button>
+
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
 
   <script>
     const calcButton = document.getElementById("calcButton");
     const resultDiv = document.getElementById("result");
-    const calculationDelay = 2000;
-    const voidEffectDuration = 1200;
+    const modeToggle = document.getElementById("modeToggle");
 
-    const quotes = {
-      loading: "ฉันรู้ว่านั่นมันคือแก๊งค์จูจุทสึ...ฉันไม่ปล่อยให้ใครไปไหนหรอก!",
-      success: "ดีมาก! ดูเหมือนนายจะจัดการอสูรได้ดีเลยนี่นา",
-      error: "เรื่องแบบนี้... ห่วยแตกที่สุด!"
-    };
-
-    const gojoQuote = "แกน่าจะอยู่ได้ในอาณาเขตของฉัน..."
+    calcButton.addEventListener('click', calculate);
+    modeToggle.addEventListener('click', toggleDarkMode);
+    
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        modeToggle.textContent = isDarkMode ? '🌙' : '☀️';
+    }
 
     function calculate() {
       calcButton.disabled = true;
-      resultDiv.innerHTML = `<span class="loading-text">${gojoQuote}</span>`;
-      resultDiv.classList.add("loading-pulse");
-      resultDiv.classList.remove("result-success", "result-error");
+      resultDiv.style.display = 'none';
 
-      setTimeout(() => {
-        resultDiv.innerHTML = '<div class="void-effect"></div>';
+      const daysInMonth = parseInt(document.getElementById("daysInMonth").value);
+      const dailyIncome = parseFloat(document.getElementById("dailyIncome").value);
+      const halfDays = parseInt(document.getElementById("halfDays").value);
+      const offDays = parseInt(document.getElementById("offDays").value);
+      const extraDays = parseInt(document.getElementById("extraDays").value);
 
-        setTimeout(() => {
-            const daysInMonth = parseInt(document.getElementById("daysInMonth").value);
-            const dailyIncome = parseFloat(document.getElementById("dailyIncome").value);
-            const halfDays = parseInt(document.getElementById("halfDays").value);
-            const offDays = parseInt(document.getElementById("offDays").value);
-            const extraDays = parseInt(document.getElementById("extraDays").value);
+      const fullDays = daysInMonth - (halfDays + offDays);
+      let isError = false;
 
-            const fullDays = daysInMonth - (halfDays + offDays);
+      if (fullDays < 0 || isNaN(daysInMonth) || isNaN(dailyIncome) || isNaN(halfDays) || isNaN(offDays) || isNaN(extraDays)) {
+        isError = true;
+      }
 
-            let resultHtml = '';
-            let finalQuote = '';
-            let isError = false;
+      if (isError) {
+        resultDiv.classList.remove('success');
+        resultDiv.classList.add('error');
+        resultDiv.innerHTML = `
+          <div class="result-title">❌ เกิดข้อผิดพลาด!</div>
+          <p>กรุณาตรวจสอบข้อมูลที่กรอกอีกครั้ง</p>
+        `;
+      } else {
+        resultDiv.classList.remove('error');
+        resultDiv.classList.add('success');
+        
+        const incomeFullDays = fullDays * dailyIncome;
+        const incomeHalfDays = halfDays * (dailyIncome / 2);
+        const incomeExtraDays = extraDays * 100;
+        const totalIncome = incomeFullDays + incomeHalfDays + incomeExtraDays;
 
-            if (fullDays < 0 || isNaN(daysInMonth) || isNaN(dailyIncome) || isNaN(halfDays) || isNaN(offDays) || isNaN(extraDays)) {
-                isError = true;
-            }
+        resultDiv.innerHTML = `
+          <div class="result-title">✅ สรุปผลการคำนวณ</div>
+          <div class="result-summary">${totalIncome.toLocaleString()} บาท</div>
+          
+          <div class="result-detail">
+            <p><strong>รายละเอียด:</strong></p>
+            <ul>
+                <li>วันทำงานเต็ม: ${fullDays} วัน (${incomeFullDays.toLocaleString()} บาท)</li>
+                <li>วันทำงานครึ่ง: ${halfDays} วัน (${incomeHalfDays.toLocaleString()} บาท)</li>
+                <li>วันหยุด: ${offDays} วัน</li>
+                <li>โบนัสพิเศษ: ${extraDays} วัน (${incomeExtraDays.toLocaleString()} บาท)</li>
+            </ul>
+          </div>
+        `;
+      }
 
-            if (isError) {
-                resultDiv.classList.add("result-error");
-                resultHtml = `
-                    <div class="result-title">⚠️ เกิดข้อผิดพลาด!</div>
-                    <div class="result-detail">ตรวจสอบข้อมูลอีกครั้งสิ!</div>
-                `;
-                finalQuote = `"${quotes.error}"`;
-            } else {
-                resultDiv.classList.add("result-success");
-                let income = (fullDays * dailyIncome) + (halfDays * (dailyIncome / 2));
-                income += extraDays * 100;
-
-                resultHtml = `
-                    <div class="result-title">รายงานภารกิจประจำเดือน</div>
-                    <div class="result-summary">ยอดรวม: ${income.toLocaleString()} เยน</div>
-                    <div class="result-detail">
-                        <span>🎯 ภารกิจเต็มวัน: ${fullDays} วัน</span>
-                        <span>🗓️ ภารกิจครึ่งวัน: ${halfDays} วัน</span>
-                        <span>🩹 พักฟื้น: ${offDays} วัน</span>
-                        <span>✨ โบนัสพิเศษ: ${extraDays * 100} เยน</span>
-                    </div>
-                `;
-                finalQuote = `"${quotes.success}"`;
-            }
-
-            resultDiv.innerHTML = `<div class="result-content">${resultHtml}</div><p class="quote-final">${finalQuote}</p>`;
-
-            calcButton.disabled = false;
-            resultDiv.classList.remove("loading-pulse");
-        }, voidEffectDuration);
-      }, calculationDelay);
+      resultDiv.style.display = 'block';
+      calcButton.disabled = false;
     }
   </script>
 </body>
