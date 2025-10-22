@@ -3,309 +3,170 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>เครื่องมือคำนวณ</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+  <title>คำนวณรายได้ต่อเดือน</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
   <style>
-    /* Day Mode Colors */
-    :root {
-      --bg-color: #f4f7f9;
-      --card-bg: #ffffff;
-      --text-main: #333333;
-      --text-label: #555555;
-      --input-border: #dddddd;
-      --focus-color: #3498db;
-      --button-bg: #3498db;
-      --button-hover: #2980b9;
-      --success-color: #2ecc71;
-      --error-color: #e74c4c;
-      --shadow-color: rgba(0, 0, 0, 0.1);
-      --card-glow: rgba(52, 152, 219, 0.2);
-    }
-    
-    /* Dark Mode Colors */
-    body.dark-mode {
-      --bg-color: #1a1a1a;
-      --card-bg: #2d2d2d;
-      --text-main: #f4f7f9;
-      --text-label: #bbbbbb;
-      --input-border: #444444;
-      --focus-color: #8e44ad;
-      --button-bg: #8e44ad;
-      --button-hover: #9b59b6;
-      --success-color: #27ae60;
-      --error-color: #c0392b;
-      --shadow-color: rgba(0, 0, 0, 0.3);
-      --card-glow: rgba(142, 68, 173, 0.2);
-    }
-
-    /* General and Mobile-first Styling */
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      transition: background-color 0.5s ease, color 0.5s ease;
-    }
-
     body {
       font-family: 'Sarabun', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 1rem;
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
       min-height: 100vh;
-      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-    .container {
-      width: 100%;
-      max-width: 450px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 4px 15px var(--shadow-color);
-      padding: 2rem;
-      box-sizing: border-box;
-      margin-top: 2rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .container:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px var(--card-glow);
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 1.8rem;
-      color: var(--text-main);
-      margin-bottom: 2rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      color: var(--text-label);
-      margin-bottom: 0.5rem;
-    }
-
-    input[type="number"] {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--input-border);
-      border-radius: 8px;
-      font-size: 1rem;
-      color: var(--text-main);
-      box-sizing: border-box;
-      background-color: var(--card-bg);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, color 0.5s ease;
-      -webkit-appearance: none;
-      -moz-appearance: textfield;
-    }
-    
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    input[type="number"]:focus {
-      outline: none;
-      border-color: var(--focus-color);
-      box-shadow: 0 0 0 3px var(--card-glow);
-    }
-
-    button {
-      width: 100%;
-      padding: 15px;
+    .card {
       border: none;
-      border-radius: 8px;
-      background-color: var(--button-bg);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      background: #fff;
+    }
+    .card-header {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
       color: white;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-sizing: border-box;
-      margin-top: 1rem;
-    }
-
-    button:hover {
-      background-color: var(--button-hover);
-      transform: translateY(-2px);
-    }
-
-    button:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .result {
-      margin-top: 2rem;
-      padding: 1.5rem;
-      border-radius: 12px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
       text-align: center;
-      transition: all 0.5s ease;
+      font-size: 1.6rem;
+      font-weight: 700;
+      padding: 1rem;
     }
-
-    .result.success {
-      background-color: #e8f5e9;
-      color: var(--success-color);
-      border: 2px solid var(--success-color);
+    label {
+      font-weight: 600;
+      color: #444;
     }
-
-    .result.error {
-      background-color: #fbe9e7;
-      color: var(--error-color);
-      border: 2px solid var(--error-color);
+    .btn-gradient {
+      background: linear-gradient(135deg, #43e97b, #38f9d7);
+      border: none;
+      font-weight: 600;
+      transition: 0.3s;
     }
-    
-    body.dark-mode .result.success {
-        background-color: #1f302b;
+    .btn-gradient:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
     }
-    
-    body.dark-mode .result.error {
-        background-color: #3b1e1e;
+    .result-box {
+      margin-top: 25px;
+      display: none;
+      animation: fadeIn 0.6s ease;
     }
-
-    .result-title {
-      font-size: 1.4rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+    .summary-card {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 10px;
+      text-align: center;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
     }
-
-    .result-summary {
-      font-size: 2.2rem;
-      font-weight: bold;
-      margin-top: 1rem;
+    #totalIncome {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0078ff;
     }
-
-    .result-detail {
-      font-size: 1rem;
-      text-align: left;
-      margin-top: 1rem;
-      line-height: 1.6;
-    }
-
-    .mode-toggle {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        cursor: pointer;
-        font-size: 2rem;
-        user-select: none;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="mode-toggle" id="modeToggle">☀️</div>
 
   <div class="container">
-    <h1>เครื่องมือคำนวณ</h1>
+    <div class="card p-3 p-md-4" style="max-width: 480px; margin: auto;">
+      <div class="card-header">
+        💰 คำนวณรายได้ต่อเดือน
+      </div>
+      <div class="card-body">
+        <form onsubmit="event.preventDefault(); calculateIncome();">
+          <div class="mb-3">
+            <label for="daily" class="form-label"><i class="bi bi-cash-stack me-2"></i>รายได้ต่อวัน (บาท)</label>
+            <input type="number" id="daily" class="form-control text-center" placeholder="เช่น 450">
+          </div>
 
-    <div class="form-group">
-      <label for="daysInMonth">จำนวนวันในเดือนนี้</label>
-      <input type="number" id="daysInMonth" value="30" min="1" max="31">
+          <div class="mb-3">
+            <label for="days" class="form-label"><i class="bi bi-calendar3 me-2"></i>จำนวนวันในเดือนนั้น</label>
+            <input type="number" id="days" class="form-control text-center" placeholder="เช่น 31">
+          </div>
+
+          <div class="mb-3">
+            <label for="offDays" class="form-label"><i class="bi bi-moon-stars me-2"></i>จำนวนวันที่หยุด</label>
+            <input type="number" id="offDays" class="form-control text-center" placeholder="เช่น 1">
+          </div>
+
+          <div class="mb-3">
+            <label for="halfDays" class="form-label"><i class="bi bi-hourglass-split me-2"></i>จำนวนวันที่ทำงานครึ่งวัน</label>
+            <input type="number" id="halfDays" class="form-control text-center" placeholder="เช่น 2">
+          </div>
+
+          <button type="submit" class="btn btn-gradient w-100 py-2 fs-5">
+            <i class="bi bi-calculator"></i> คำนวณรายได้
+          </button>
+        </form>
+
+        <div class="result-box mt-4" id="resultBox">
+          <h5 class="text-center mb-3">📊 สรุปรายได้ของคุณ</h5>
+          <div id="totalIncome" class="mb-3">0 บาท</div>
+
+          <div class="summary-card">
+            <p class="mb-1"><i class="bi bi-briefcase"></i> ทำงานเต็มวัน: <span id="fullDays">0</span> วัน</p>
+            <p class="mb-1"><i class="bi bi-clock-history"></i> ครึ่งวัน: <span id="halfDaysShow">0</span> วัน</p>
+            <p class="mb-1"><i class="bi bi-pause-circle"></i> หยุด: <span id="offDaysShow">0</span> วัน</p>
+            <hr>
+            <p class="fw-bold mb-0"><i class="bi bi-cash-coin"></i> รายได้ต่อวัน: <span id="dailyShow">0</span> บาท</p>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="form-group">
-      <label for="dailyIncome">รายได้ต่อวัน (บาท)</label>
-      <input type="number" id="dailyIncome" value="300" min="0">
-    </div>
-
-    <div class="form-group">
-      <label for="halfDays">จำนวนวันที่ทำงานครึ่งวัน</label>
-      <input type="number" id="halfDays" value="5" min="0">
-    </div>
-
-    <div class="form-group">
-      <label for="offDays">จำนวนวันที่พัก (หยุด)</label>
-      <input type="number" id="offDays" value="5" min="0">
-    </div>
-
-    <div class="form-group">
-      <label for="extraDays">จำนวนวันที่มีโบนัส (+100 บาท)</label>
-      <input type="number" id="extraDays" value="10" min="0">
-    </div>
-
-    <button id="calcButton">คำนวณ</button>
-
-    <div id="result" class="result" style="display:none;"></div>
   </div>
 
-  <script>
-    const calcButton = document.getElementById("calcButton");
-    const resultDiv = document.getElementById("result");
-    const modeToggle = document.getElementById("modeToggle");
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    calcButton.addEventListener('click', calculate);
-    modeToggle.addEventListener('click', toggleDarkMode);
-    
-    function toggleDarkMode() {
-        document.body.classList.toggle('dark-mode');
-        const isDarkMode = document.body.classList.contains('dark-mode');
-        modeToggle.textContent = isDarkMode ? '🌙' : '☀️';
+  <script>
+    function calculateIncome() {
+      const daily = parseFloat(document.getElementById('daily').value) || 0;
+      const days = parseFloat(document.getElementById('days').value) || 0;
+      const offDays = parseFloat(document.getElementById('offDays').value) || 0;
+      const halfDays = parseFloat(document.getElementById('halfDays').value) || 0;
+
+      let fullDays = days - offDays - halfDays;
+      if (fullDays < 0) fullDays = 0;
+
+      let total = (daily * fullDays) + ((daily / 2) * halfDays);
+
+      document.getElementById('resultBox').style.display = "block";
+      document.getElementById('fullDays').innerText = fullDays;
+      document.getElementById('halfDaysShow').innerText = halfDays;
+      document.getElementById('offDaysShow').innerText = offDays;
+      document.getElementById('dailyShow').innerText = daily.toLocaleString();
+
+      animateNumber(total);
     }
 
-    function calculate() {
-      calcButton.disabled = true;
-      resultDiv.style.display = 'none';
+    function animateNumber(finalValue) {
+      const el = document.getElementById("totalIncome");
+      let current = 0;
+      const duration = 1200;
+      const steps = 60;
+      const increment = finalValue / steps;
+      const stepTime = duration / steps;
 
-      const daysInMonth = parseInt(document.getElementById("daysInMonth").value);
-      const dailyIncome = parseFloat(document.getElementById("dailyIncome").value);
-      const halfDays = parseInt(document.getElementById("halfDays").value);
-      const offDays = parseInt(document.getElementById("offDays").value);
-      const extraDays = parseInt(document.getElementById("extraDays").value);
-
-      const fullDays = daysInMonth - (halfDays + offDays);
-      let isError = false;
-
-      if (fullDays < 0 || isNaN(daysInMonth) || isNaN(dailyIncome) || isNaN(halfDays) || isNaN(offDays) || isNaN(extraDays)) {
-        isError = true;
-      }
-
-      if (isError) {
-        resultDiv.classList.remove('success');
-        resultDiv.classList.add('error');
-        resultDiv.innerHTML = `
-          <div class="result-title">❌ เกิดข้อผิดพลาด!</div>
-          <p>กรุณาตรวจสอบข้อมูลที่กรอกอีกครั้ง</p>
-        `;
-      } else {
-        resultDiv.classList.remove('error');
-        resultDiv.classList.add('success');
-        
-        const incomeFullDays = fullDays * dailyIncome;
-        const incomeHalfDays = halfDays * (dailyIncome / 2);
-        const incomeExtraDays = extraDays * 100;
-        const totalIncome = incomeFullDays + incomeHalfDays + incomeExtraDays;
-
-        resultDiv.innerHTML = `
-          <div class="result-title">✅ สรุปผลการคำนวณ</div>
-          <div class="result-summary">${totalIncome.toLocaleString()} บาท</div>
-          
-          <div class="result-detail">
-            <p><strong>รายละเอียด:</strong></p>
-            <ul>
-                <li>วันทำงานเต็ม: ${fullDays} วัน (${incomeFullDays.toLocaleString()} บาท)</li>
-                <li>วันทำงานครึ่ง: ${halfDays} วัน (${incomeHalfDays.toLocaleString()} บาท)</li>
-                <li>วันหยุด: ${offDays} วัน</li>
-                <li>โบนัสพิเศษ: ${extraDays} วัน (${incomeExtraDays.toLocaleString()} บาท)</li>
-            </ul>
-          </div>
-        `;
-      }
-
-      resultDiv.style.display = 'block';
-      calcButton.disabled = false;
+      const counter = setInterval(() => {
+        current += increment;
+        if (current >= finalValue) {
+          current = finalValue;
+          clearInterval(counter);
+        }
+        el.textContent = current.toLocaleString(undefined, {maximumFractionDigits: 0}) + " บาท";
+      }, stepTime);
     }
   </script>
+
 </body>
 </html>
